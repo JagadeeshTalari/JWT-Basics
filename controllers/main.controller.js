@@ -4,8 +4,8 @@
 
 const jwt = require("jsonwebtoken");
 
-const CustomAPIErrorHandler = require("../errors/customAPIErrorHandler");
 const asyncWrapper = require("../middleware/asyncWrapper.middleware");
+const { BadRequest, CustomAPIErrorHandler } = require("../errors");
 
 // setup authentication so only the request with JWT can access the dashboard
 
@@ -13,9 +13,7 @@ const login = asyncWrapper(async (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return next(
-      new CustomAPIErrorHandler(`Please provide email & password`, 400)
-    );
+    return next(new BadRequest(`Please provide email & password`));
   }
   const id = new Date().getDate();
 
