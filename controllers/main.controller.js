@@ -2,6 +2,8 @@
 // if exist create new JWT
 // send back to front-end
 
+const jwt = require("jsonwebtoken");
+
 const CustomAPIErrorHandler = require("../errors/customAPIErrorHandler");
 const asyncWrapper = require("../middleware/asyncWrapper.middleware");
 
@@ -14,10 +16,17 @@ const login = asyncWrapper(async (req, res, next) => {
       new CustomAPIErrorHandler(`Please provide email & password`, 400)
     );
   }
+  const id = new Date.getDate();
+
+  // try to keep payload small, better experience for user
+  const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
+    expiration: "30d",
+  });
   //mongoose validation
   //JOI
   //controller validations (check in the controller)
-  res.send("Fake Login/Register/Signup");
+  // res.send("Fake Login/Register/Signup");
+  res.status(200).json({ msg: `user Created`, token: token });
 });
 
 const dashboard = asyncWrapper(async (req, res) => {
