@@ -1,5 +1,5 @@
 const notFoundMiddleware = (req, res) => {
-  return res.send(400).json({ msg: `Route not found` });
+  return res.send(404).json({ msg: `Route not found` });
 };
 
 module.exports = notFoundMiddleware;

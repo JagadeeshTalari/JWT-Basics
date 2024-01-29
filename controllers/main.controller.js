@@ -11,17 +11,20 @@ const asyncWrapper = require("../middleware/asyncWrapper.middleware");
 
 const login = asyncWrapper(async (req, res, next) => {
   const { username, password } = req.body;
+
   if (!username || !password) {
     return next(
       new CustomAPIErrorHandler(`Please provide email & password`, 400)
     );
   }
-  const id = new Date.getDate();
+  const id = new Date().getDate();
 
   // try to keep payload small, better experience for user
+
   const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
-    expiration: "30d",
+    expiresIn: "30d",
   });
+
   //mongoose validation
   //JOI
   //controller validations (check in the controller)
